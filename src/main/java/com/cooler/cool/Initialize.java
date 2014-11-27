@@ -57,13 +57,6 @@ public class Initialize
     private int vboTexID;
     private int eboID;
 
-    public boolean shouldWindowClose()
-    {
-        return windowClose;
-    }
-
-    private boolean windowClose = true;
-
     public Shaders getShader()
     {
         return shader;
@@ -114,11 +107,7 @@ public class Initialize
     {
         glfwSetErrorCallback(ErrorCallback.Util.getDefault());
 
-        if (glfwInit() == GL11.GL_TRUE)
-        {
-            windowClose = false;
-        }
-        else
+        if (glfwInit() != GL11.GL_TRUE)
         {
             System.out.println("Failed to initialize.");
             throw new IllegalStateException("Unable to initialize GLFW");
@@ -145,10 +134,7 @@ public class Initialize
             public void key(long window, int key, int scancode, int action, int mods)
             {
                 if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-                {
                     glfwSetWindowShouldClose(window, GL11.GL_TRUE);
-                    windowClose = true;
-                }
             }
         });
 
@@ -166,7 +152,7 @@ public class Initialize
         glfwShowWindow(window);
 
         shader = new Shaders();
-        shader.attachShader(GL_VERTEX_SHADER, SRC + "Util/Shaders/VertexShader.shader");
+        shader.attachShader(GL_VERTEX_SHADER, SRC + "Util/Shaders/VertexShader.vert");
         shader.attachShader(GL_FRAGMENT_SHADER, SRC + "Util/Shaders/FragmentShader.shader");
         shader.link();
         shader.setUniform("tex", 0);

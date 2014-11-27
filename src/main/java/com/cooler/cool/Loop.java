@@ -11,7 +11,7 @@ public class Loop
     public void mainLoop(Initialize initObj)
     {
         long window = initObj.getWindow();
-        while(glfwWindowShouldClose(window) == GL11.GL_FALSE && !initObj.shouldWindowClose())
+        while(glfwWindowShouldClose(window) == GL11.GL_FALSE)
         {
             glClear(GL_COLOR_BUFFER_BIT);
             glfwSwapBuffers(window);

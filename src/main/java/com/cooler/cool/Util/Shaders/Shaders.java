@@ -16,40 +16,32 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 public class Shaders
 {
     private final int id;
-    private HashMap<Integer,Integer> shaderIds = new HashMap<Integer, Integer>();
+    private HashMap<Integer, Integer> shaderIds = new HashMap<Integer, Integer>();
 
     public Shaders()
     {
         id = glCreateProgram();
-        System.out.println("Shader program ID is:" + id);
     }
 
     public void attachShader(int shadertype, String filename)
     {
-        if(filename == null)
-            return;
-        BufferedReader reader = null;
-        try
-        {
-            reader = new BufferedReader(new FileReader(filename));
-        } catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-            System.out.println("Unable to open Shader files.");
-            //Main.ErrorClose();
-        }
         StringBuilder shaderSource = new StringBuilder();
-        String line;
         try
         {
-            while ((line = reader.readLine())!=null)
-                shaderSource.append(line);
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String line;
+            while ((line = reader.readLine()) != null)
+            {
+                shaderSource.append(line).append("\n");
+            }
+            reader.close();
         } catch (IOException e)
         {
+            System.err.println("Could not read file.");
             e.printStackTrace();
-            System.out.println("Unable to read Shader files.");
-            //Main.ErrorClose();
+            System.exit(-1);
         }
+
         int shaderid = glCreateShader(shadertype);
         shaderIds.put(shadertype, shaderid);
         glShaderSource(shaderid, shaderSource);
@@ -58,7 +50,7 @@ public class Shaders
         {
             System.err.println("Unable to create shader:" + shadertype);
             System.err.println(glGetShaderInfoLog(shaderid, glGetShaderi(shaderid, GL_INFO_LOG_LENGTH)));
-            //Main.ErrorClose();
+            System.exit(-1);
         }
         glAttachShader(id, shaderid);
     }
@@ -71,22 +63,22 @@ public class Shaders
         {
             System.err.println("Unable to link shader program.");
             dispose();
-            //Main.ErrorClose();
+            System.exit(-1);
         }
     }
 
     /**
      * Sets the uniforms in this shader
      *
-     * @param name    The name of the uniform
-     * @param values  The values of the uniforms (Max 4)
+     * @param name   The name of the uniform
+     * @param values The values of the uniforms (Max 4)
      */
     public void setUniform(String name, float... values)
     {
         if (values.length > 4)
         {
             System.err.println("Uniforms cannot have more than 4 values");
-            Main.ErrorClose();
+            System.exit(-1);
         }
         int location = glGetUniformLocation(id, name);
         switch (values.length)
@@ -119,7 +111,7 @@ public class Shaders
     public void dispose()
     {
         unbind();
-        for(int shaderid:shaderIds.values())
+        for (int shaderid : shaderIds.values())
         {
             glDetachShader(id, shaderid);
             glDeleteShader(shaderid);

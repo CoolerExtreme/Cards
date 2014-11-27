@@ -25,12 +25,6 @@ public class Main
         cleanup();
     }
 
-    public static void ErrorClose()
-    {
-        instance.destroy();
-        instance.cleanup();
-    }
-
     private void init()
     {
         initObj.init();
