@@ -21,6 +21,7 @@ public class Shaders
     public Shaders()
     {
         id = glCreateProgram();
+        System.out.println("Shader program ID is:" + id);
     }
 
     public void attachShader(int shadertype, String filename)
