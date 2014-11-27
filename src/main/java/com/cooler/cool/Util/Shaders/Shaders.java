@@ -35,7 +35,7 @@ public class Shaders
         {
             e.printStackTrace();
             System.out.println("Unable to open Shader files.");
-            Main.ErrorClose();
+            //Main.ErrorClose();
         }
         StringBuilder shaderSource = new StringBuilder();
         String line;
@@ -47,7 +47,7 @@ public class Shaders
         {
             e.printStackTrace();
             System.out.println("Unable to read Shader files.");
-            Main.ErrorClose();
+            //Main.ErrorClose();
         }
         int shaderid = glCreateShader(shadertype);
         shaderIds.put(shadertype, shaderid);
@@ -57,7 +57,7 @@ public class Shaders
         {
             System.err.println("Unable to create shader:" + shadertype);
             System.err.println(glGetShaderInfoLog(shaderid, glGetShaderi(shaderid, GL_INFO_LOG_LENGTH)));
-            Main.ErrorClose();
+            //Main.ErrorClose();
         }
         glAttachShader(id, shaderid);
     }
@@ -70,7 +70,7 @@ public class Shaders
         {
             System.err.println("Unable to link shader program.");
             dispose();
-            Main.ErrorClose();
+            //Main.ErrorClose();
         }
     }
 

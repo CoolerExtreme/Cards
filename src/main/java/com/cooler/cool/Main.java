@@ -2,12 +2,22 @@ package com.cooler.cool;
 
 public class Main
 {
-    private static Initialize initObj;
-    private static Loop loopObj;
-    private static Cleanup cleanupObj;
+    private Initialize initObj;
+    private Loop loopObj;
+    private Cleanup cleanupObj;
+    private static Main instance;
 
     public static void main(String[] args)
     {
+        instance = new Main();
+        instance.execute();
+    }
+    public void execute()
+    {
+        initObj = new Initialize();
+        loopObj = new Loop();
+        cleanupObj = new Cleanup();
+
         init();
         setup();
         loop();
@@ -17,35 +27,32 @@ public class Main
 
     public static void ErrorClose()
     {
-        destroy();
-        cleanup();
+        instance.destroy();
+        instance.cleanup();
     }
 
-    private static void init()
+    private void init()
     {
-        initObj = new Initialize();
         initObj.init();
     }
 
-    private static void setup()
+    private void setup()
     {
 
     }
 
-    private static void loop()
+    private void loop()
     {
-        loopObj = new Loop();
         loopObj.mainLoop(initObj);
     }
 
-    private static void destroy()
+    private void destroy()
     {
 
     }
 
-    private static void cleanup()
+    private void cleanup()
     {
-        cleanupObj = new Cleanup();
         cleanupObj.clean(initObj);
     }
 }

@@ -32,10 +32,37 @@ import static org.lwjgl.system.glfw.GLFW.*;
 
 public class Initialize
 {
+    public int getVaoID()
+    {
+        return vaoID;
+    }
+
+    public int getVboVertID()
+    {
+        return vboVertID;
+    }
+
+    public int getVboTexID()
+    {
+        return vboTexID;
+    }
+
+    public int getEboID()
+    {
+        return eboID;
+    }
+
     private int vaoID;
     private int vboVertID;
     private int vboTexID;
     private int eboID;
+
+    public boolean shouldWindowClose()
+    {
+        return windowClose;
+    }
+
+    private boolean windowClose = true;
 
     public Shaders getShader()
     {
@@ -87,7 +114,11 @@ public class Initialize
     {
         glfwSetErrorCallback(ErrorCallback.Util.getDefault());
 
-        if (glfwInit() != GL11.GL_TRUE)
+        if (glfwInit() == GL11.GL_TRUE)
+        {
+            windowClose = false;
+        }
+        else
         {
             System.out.println("Failed to initialize.");
             throw new IllegalStateException("Unable to initialize GLFW");
@@ -114,7 +145,10 @@ public class Initialize
             public void key(long window, int key, int scancode, int action, int mods)
             {
                 if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
+                {
                     glfwSetWindowShouldClose(window, GL11.GL_TRUE);
+                    windowClose = true;
+                }
             }
         });
 
@@ -132,10 +166,10 @@ public class Initialize
         glfwShowWindow(window);
 
         shader = new Shaders();
-        //shader.attachShader(GL_VERTEX_SHADER, SRC + "Util/Shaders/VertexShader.shader");
-        //shader.attachShader(GL_FRAGMENT_SHADER, SRC + "Util/Shaders/FragmentShader.shader");
-        //shader.link();
-        //shader.setUniform("tex", 0);
+        shader.attachShader(GL_VERTEX_SHADER, SRC + "Util/Shaders/VertexShader.shader");
+        shader.attachShader(GL_FRAGMENT_SHADER, SRC + "Util/Shaders/FragmentShader.shader");
+        shader.link();
+        shader.setUniform("tex", 0);
 
         FloatBuffer posBuf = BufferUtils.createFloatBuffer(3 * 4 * 128);
         FloatBuffer texBuf = BufferUtils.createFloatBuffer(3 * 4 * 128);
