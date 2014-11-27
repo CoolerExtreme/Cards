@@ -1,6 +1,7 @@
 package com.cooler.cool.GameObjects;
 
 import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 
 public abstract class GameObject
 {
@@ -18,7 +19,7 @@ public abstract class GameObject
 
     public abstract void passiveUpdate();
 
-    public void addToBuffer(FloatBuffer posBuf, FloatBuffer texBuf)
+    public short addToBuffer(FloatBuffer posBuf, FloatBuffer texBuf, ShortBuffer indexBuf, short i)
     {
         posBuf.put(new float[]{x, y + h, z,
                                x + w, y + h, z,
@@ -28,6 +29,9 @@ public abstract class GameObject
                                1, 0, texLayer,
                                0, 1, texLayer,
                                1, 1, texLayer});
+        indexBuf.put(new short[]{32767, i, (short) (i + 1), (short) (i + 2), (short) (i + 3)});
+        i += 4;
+        return i;
     }
 
     public float getX()

@@ -2,9 +2,9 @@ package com.cooler.cool.GameObjects;
 
 public class GOCard extends GameObject
 {
-    public GOCard(float x, float y, float z, float w, float h, int texLayer)
+    public GOCard(float x, float y, float z, int texLayer)
     {
-        super(x, y, z, w, h, texLayer);
+        super(x, y, z, 223, 311, texLayer);
     }
 
     @Override

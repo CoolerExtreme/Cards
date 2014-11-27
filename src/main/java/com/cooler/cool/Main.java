@@ -6,6 +6,7 @@ public class Main
     private Loop loopObj;
     private Cleanup cleanupObj;
     private static Main instance;
+    private Setup setupObj;
 
     public static void main(String[] args)
     {
@@ -15,6 +16,7 @@ public class Main
     public void execute()
     {
         initObj = new Initialize();
+        setupObj = new Setup();
         loopObj = new Loop();
         cleanupObj = new Cleanup();
 
@@ -32,12 +34,12 @@ public class Main
 
     private void setup()
     {
-
+        setupObj.setup();
     }
 
     private void loop()
     {
-        loopObj.mainLoop(initObj);
+        loopObj.mainLoop(initObj,setupObj);
     }
 
     private void destroy()

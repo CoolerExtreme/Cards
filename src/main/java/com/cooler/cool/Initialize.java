@@ -1,8 +1,10 @@
 package com.cooler.cool;
 
 import com.cooler.cool.Util.Shaders.Shaders;
+
 import static com.cooler.cool.Util.References.*;
 
+import com.cooler.cool.Util.Textures;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -18,6 +20,7 @@ import static org.lwjgl.opengl.GL31.glPrimitiveRestartIndex;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import static org.lwjgl.opengl.GL20.*;
+
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.system.glfw.ErrorCallback;
 import org.lwjgl.system.glfw.GLFWvidmode;
@@ -32,6 +35,28 @@ import static org.lwjgl.system.glfw.GLFW.*;
 
 public class Initialize
 {
+    private Textures textureObj;
+    private int cardCount = 3;
+
+    public FloatBuffer getPosBuf()
+    {
+        return posBuf;
+    }
+
+    public FloatBuffer getTexBuf()
+    {
+        return texBuf;
+    }
+
+    public ShortBuffer getIndexBuf()
+    {
+        return indexBuf;
+    }
+
+    private FloatBuffer posBuf;
+    private FloatBuffer texBuf;
+    private ShortBuffer indexBuf;
+
     public int getVaoID()
     {
         return vaoID;
@@ -151,44 +176,47 @@ public class Initialize
         glfwSwapInterval(1);
         glfwShowWindow(window);
 
+//---------------------------------SHADERS----------------------------------//
         shader = new Shaders();
-        shader.attachShader(GL_VERTEX_SHADER, SRC + "Util/Shaders/VertexShader.vert");
+        shader.attachShader(GL_VERTEX_SHADER, SRC + "Util/Shaders/VertexShader.shader");
         shader.attachShader(GL_FRAGMENT_SHADER, SRC + "Util/Shaders/FragmentShader.shader");
         shader.link();
-        shader.setUniform("tex", 0);
+        shader.setUniform("texArray", 0);
+        shader.setUniform("texAtlas", 1);
+//---------------------------------SHADERS----------------------------------//
 
-        FloatBuffer posBuf = BufferUtils.createFloatBuffer(3 * 4 * 128);
-        FloatBuffer texBuf = BufferUtils.createFloatBuffer(3 * 4 * 128);
-        ShortBuffer indexBuf = BufferUtils.createShortBuffer(1024);
+//---------------------------------BUFFERS----------------------------------//
+        posBuf = BufferUtils.createFloatBuffer(3 * 4 * 128);
+        texBuf = BufferUtils.createFloatBuffer(3 * 4 * 128);
+        indexBuf = BufferUtils.createShortBuffer(1024);
 
         vaoID = glGenVertexArrays();
         glBindVertexArray(vaoID);
 
         vboVertID = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vboVertID);
-        glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         vboTexID = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vboTexID);
-        glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         eboID = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboID);
 
         glBindVertexArray(0);
+//---------------------------------BUFFERS----------------------------------//
 
-        /*texture = Texture.loadTexture("src/main/resources/assets/textures/CardImg0.png");
-        texture.setActiveTextureUnit(0);
-        texture1 = Texture.loadTexture("src/main/resources/assets/textures/BlockBomb.png");
-        texture1.setActiveTextureUnit(0);
-        texture.bind();*/
+        textureObj = new Textures(cardCount);
+        for (int i = 0; i < cardCount; i++)
+            textureObj.addToTextureArray(RES + "textures/Cards/CardImg" + i + ".png");
 
         glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_PRIMITIVE_RESTART);
-        glClearColor(0, 0, 1, 0);
         glPrimitiveRestartIndex(32767);
+        glClearColor(0, 0, 0, 0);
     }
 }

@@ -1,15 +1,11 @@
 package com.cooler.cool.Util.Shaders;
 
-import com.cooler.cool.Main;
-
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL11.GL_FALSE;
-import static org.lwjgl.opengl.GL11.glGetString;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 
@@ -67,12 +63,6 @@ public class Shaders
         }
     }
 
-    /**
-     * Sets the uniforms in this shader
-     *
-     * @param name   The name of the uniform
-     * @param values The values of the uniforms (Max 4)
-     */
     public void setUniform(String name, float... values)
     {
         if (values.length > 4)
@@ -103,7 +93,7 @@ public class Shaders
         glUseProgram(id);
     }
 
-    public static void unbind()
+    public void unbind()
     {
         glUseProgram(0);
     }
