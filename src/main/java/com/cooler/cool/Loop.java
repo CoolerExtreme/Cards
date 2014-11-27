@@ -7,9 +7,12 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 import static org.lwjgl.system.glfw.GLFW.*;
 
 public class Loop
@@ -26,6 +29,7 @@ public class Loop
 
         while (glfwWindowShouldClose(window) == GL11.GL_FALSE)
         {
+            drawCount = i = 0;
             glViewport(0, 0, initObj.getWIDTH(), initObj.getHEIGHT());
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glMatrixMode(GL_PROJECTION);
@@ -46,8 +50,18 @@ public class Loop
             tex.flip();
             index.flip();
 
-            initObj.getShader().bind();
             glBindVertexArray(vaoID);
+
+            glBindBuffer(GL_ARRAY_BUFFER, initObj.getVboVertID());
+            glBufferData(GL_ARRAY_BUFFER, pos, GL_DYNAMIC_DRAW);
+
+            glBindBuffer(GL_ARRAY_BUFFER, initObj.getVboTexID());
+            glBufferData(GL_ARRAY_BUFFER, tex, GL_DYNAMIC_DRAW);
+
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, initObj.getEboID());
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, index, GL_DYNAMIC_DRAW);
+
+            initObj.getShader().bind();
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
 

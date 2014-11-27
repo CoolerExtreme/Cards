@@ -29,7 +29,7 @@ public abstract class GameObject
                                1, 0, texLayer,
                                0, 1, texLayer,
                                1, 1, texLayer});
-        indexBuf.put(new short[]{32767, i, (short) (i + 1), (short) (i + 2), (short) (i + 3)});
+        indexBuf.put(new short[]{i, (short) (i + 1), (short) (i + 2), (short) (i + 3), 32767});
         i += 4;
         return i;
     }
