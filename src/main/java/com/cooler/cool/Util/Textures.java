@@ -49,7 +49,7 @@ public class Textures
         setActiveTextureUnit(1);
         atlasTexId = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, atlasTexId);
-        glTexStorage2D(GL_TEXTURE_2D, 0, GL_RGBA, 2048, 2048);
+        glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA, 2048, 2048);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
