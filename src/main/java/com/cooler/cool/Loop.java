@@ -27,7 +27,8 @@ public class Loop
         int vaoID = initObj.getVaoID();
         int drawCount = 0;
         short i = 0;
-
+        double delta, currFrame, prevFrame;
+        prevFrame = glfwGetTime();
         while (glfwWindowShouldClose(window) == GL11.GL_FALSE)
         {
             drawCount = i = 0;
@@ -42,6 +43,13 @@ public class Loop
             pos.clear();
             tex.clear();
             index.clear();
+            currFrame = glfwGetTime();
+            delta = currFrame - prevFrame;
+            prevFrame = currFrame;
+            for (GameObject go : setupObj.GOList)
+            {
+                go.passiveUpdate(delta);
+            }
             Collections.sort(setupObj.GOList);
             for (GameObject go : setupObj.GOList)
             {

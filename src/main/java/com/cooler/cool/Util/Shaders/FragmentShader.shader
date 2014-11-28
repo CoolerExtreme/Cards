@@ -12,7 +12,7 @@ vec4 tex2;
 void main()
 {
     tex1 = texture(texArray, texCoords);
-    tex2 = texture(texAtlas, texCoords.xy);
+    tex2 = texelFetch(texAtlas, ivec2(texCoords.xy), 0);
     float par = texCoords.z;
     if(par < 0.5)
     {

@@ -1,12 +1,10 @@
 package com.cooler.cool.GameObjects;
 
-import com.cooler.cool.Main;
-
-public class GOCard extends GameObject
+public class GOBackground extends GameObject
 {
-    public GOCard(float x, float y, float z, int texLayer)
+    public GOBackground()
     {
-        super(x, y, z, 223, 311, texLayer, 0, 0, 1, 1);
+        super(-640, -360, 1, 1280, 720, 0, 0, 0, 1280, 720);
     }
 
     @Override
@@ -18,6 +16,6 @@ public class GOCard extends GameObject
     @Override
     public void passiveUpdate(double delta)
     {
-        
+
     }
 }

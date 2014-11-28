@@ -5,7 +5,7 @@ import java.nio.ShortBuffer;
 
 public abstract class GameObject implements Comparable<GameObject>
 {
-    public GameObject(float x, float y, float z, float w, float h, int texLayer)
+    public GameObject(float x, float y, float z, float w, float h, int texLayer, int xoff, int yoff, int u, int v)
     {
         this.x = x;
         this.y = y;
@@ -13,22 +13,26 @@ public abstract class GameObject implements Comparable<GameObject>
         this.w = w;
         this.h = h;
         this.texLayer = texLayer;
+        this.xoff = xoff;
+        this.yoff = yoff;
+        this.u = u;
+        this.v = v;
     }
 
     public abstract boolean activeUpdate();
 
-    public abstract void passiveUpdate();
+    public abstract void passiveUpdate(double delta);
 
     public short addToBuffer(FloatBuffer posBuf, FloatBuffer texBuf, ShortBuffer indexBuf, short i)
     {
-        posBuf.put(new float[]{x, y + h, z,
-                               x + w, y + h, z,
-                               x, y, z,
-                               x + w, y, z});
-        texBuf.put(new float[]{0, 0, texLayer,
-                               1, 0, texLayer,
-                               0, 1, texLayer,
-                               1, 1, texLayer});
+        posBuf.put(new float[]{x, y + h,
+                               x + w, y + h,
+                               x, y,
+                               x + w, y});
+        texBuf.put(new float[]{xoff, yoff, texLayer,
+                               xoff + u, yoff, texLayer,
+                               xoff, yoff + v, texLayer,
+                               xoff + u, xoff + v, texLayer});
         indexBuf.put(new short[]{i, (short) (i + 1), (short) (i + 2), (short) (i + 3), 32767});
         i += 4;
         return i;
@@ -99,7 +103,7 @@ public abstract class GameObject implements Comparable<GameObject>
     private float z;
     private float w;
     private float h;
-    private int texLayer;
+    private int texLayer, xoff, yoff, u, v;
 
 
     @Override

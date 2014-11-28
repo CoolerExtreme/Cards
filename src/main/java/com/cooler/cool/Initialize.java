@@ -195,7 +195,7 @@ public class Initialize
 
         vboVertID = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vboVertID);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         vboTexID = glGenBuffers();

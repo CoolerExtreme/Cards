@@ -130,9 +130,9 @@ public class Textures
         glBindTexture(GL_TEXTURE_2D, atlasTexId);
         if (maxHeight == 0)
         {
-            xoff += width;
             maxHeight = height;
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, atlasBuffer);
+            xoff += width;
         } else if ((height > maxHeight) || (xoff + width > 2048))
         {
             yoff += maxHeight;
@@ -141,8 +141,8 @@ public class Textures
             glTexSubImage2D(GL_TEXTURE_2D, 0, xoff, yoff, width, height, GL_RGBA, GL_UNSIGNED_BYTE, atlasBuffer);
         } else
         {
-            xoff += width;
             glTexSubImage2D(GL_TEXTURE_2D, 0, xoff, yoff, width, height, GL_RGBA, GL_UNSIGNED_BYTE, atlasBuffer);
+            xoff += width;
         }
     }
 }

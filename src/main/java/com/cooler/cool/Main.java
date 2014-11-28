@@ -1,11 +1,14 @@
 package com.cooler.cool;
 
+import java.util.Random;
+
 import static org.lwjgl.opengl.GL11.*;
 
 import static org.lwjgl.opengl.Util.translateGLErrorString;
 
 public class Main
 {
+    public static Random rand;
     private Initialize initObj;
     private Loop loopObj;
     private Cleanup cleanupObj;
@@ -15,6 +18,7 @@ public class Main
     public static void main(String[] args)
     {
         instance = new Main();
+        rand = new Random();
         instance.execute();
     }
 
