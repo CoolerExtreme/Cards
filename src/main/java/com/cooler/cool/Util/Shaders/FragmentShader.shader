@@ -11,12 +11,12 @@ vec4 tex2;
 
 void main()
 {
-    tex1 = texture(texArray, texCoords);
+    //tex1 = texture(texArray, texCoords);
     tex2 = texture(texAtlas, texCoords.xy);
-    float par = texCoords.z;
-    if(par < 0.5)
-    {
-    tex1 = tex2;
-    }
-    outColor = tex1;
+    //float par = texCoords.z;
+    //if(par < 0.5)
+    //{
+    //tex1 = tex2;
+    //}
+    outColor = tex2;
 }
