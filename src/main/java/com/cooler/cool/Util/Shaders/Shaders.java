@@ -1,5 +1,7 @@
 package com.cooler.cool.Util.Shaders;
 
+import com.cooler.cool.Main;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,7 +37,7 @@ public class Shaders
         {
             System.err.println("Could not read file.");
             e.printStackTrace();
-            System.exit(-1);
+            Main.ErrorClose();
         }
 
         int shaderid = glCreateShader(shadertype);
@@ -46,7 +48,7 @@ public class Shaders
         {
             System.err.println("Unable to create shader:" + shadertype);
             System.err.println(glGetShaderInfoLog(shaderid, glGetShaderi(shaderid, GL_INFO_LOG_LENGTH)));
-            System.exit(-1);
+            Main.ErrorClose();
         }
         glAttachShader(id, shaderid);
     }
@@ -59,33 +61,34 @@ public class Shaders
         {
             System.err.println("Unable to link shader program.");
             dispose();
-            System.exit(-1);
+            Main.ErrorClose();
         }
     }
 
-    public void setUniform(String name, float... values)
+    public void setUniform(String name, int... values)
     {
         if (values.length > 4)
         {
             System.err.println("Uniforms cannot have more than 4 values");
-            System.exit(-1);
+            Main.ErrorClose();
         }
         int location = glGetUniformLocation(id, name);
         switch (values.length)
         {
             case 1:
-                glUniform1f(location, values[0]);
+                glUniform1i(location, values[0]);
                 break;
             case 2:
-                glUniform2f(location, values[0], values[1]);
+                glUniform2i(location, values[0], values[1]);
                 break;
             case 3:
-                glUniform3f(location, values[0], values[1], values[2]);
+                glUniform3i(location, values[0], values[1], values[2]);
                 break;
             case 4:
-                glUniform4f(location, values[0], values[1], values[2], values[3]);
+                glUniform4i(location, values[0], values[1], values[2], values[3]);
                 break;
         }
+        Main.exitOnGLError("setting Uniform " + name);
     }
 
     public void bind()

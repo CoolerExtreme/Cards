@@ -1,5 +1,9 @@
 package com.cooler.cool;
 
+import static org.lwjgl.opengl.GL11.*;
+
+import static org.lwjgl.opengl.Util.translateGLErrorString;
+
 public class Main
 {
     private Initialize initObj;
@@ -13,6 +17,7 @@ public class Main
         instance = new Main();
         instance.execute();
     }
+
     public void execute()
     {
         initObj = new Initialize();
@@ -27,6 +32,25 @@ public class Main
         cleanup();
     }
 
+    public static void ErrorClose()
+    {
+        instance.destroy();
+        instance.cleanup();
+        System.exit(-1);
+    }
+
+    public static void exitOnGLError(String errorMessage)
+    {
+        int errorValue = glGetError();
+
+        if (errorValue != GL_NO_ERROR)
+        {
+            String errorString = translateGLErrorString(errorValue);
+            System.err.println("ERROR - " + errorMessage + ": " + errorString);
+            ErrorClose();
+        }
+    }
+
     private void init()
     {
         initObj.init();
@@ -39,7 +63,7 @@ public class Main
 
     private void loop()
     {
-        loopObj.mainLoop(initObj,setupObj);
+        loopObj.mainLoop(initObj, setupObj);
     }
 
     private void destroy()

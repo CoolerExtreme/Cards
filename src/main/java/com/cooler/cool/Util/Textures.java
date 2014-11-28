@@ -1,5 +1,6 @@
 package com.cooler.cool.Util;
 
+import com.cooler.cool.Main;
 import org.lwjgl.BufferUtils;
 
 import javax.imageio.ImageIO;
@@ -75,6 +76,7 @@ public class Textures
         {
             e.printStackTrace();
             System.err.println("Unable to load Texture: " + name);
+            Main.ErrorClose();
         }
 
         arrBuffer.clear();
@@ -111,7 +113,7 @@ public class Textures
         {
             e.printStackTrace();
             System.err.println("Unable to load Texture: " + name);
-            System.exit(-1);
+            Main.ErrorClose();
         }
 
         ByteBuffer atlasBuffer = BufferUtils.createByteBuffer(width * height * 4);
