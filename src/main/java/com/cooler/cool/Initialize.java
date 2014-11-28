@@ -212,6 +212,7 @@ public class Initialize
         textureObj = new Textures(cardCount);
         for (int i = 0; i < cardCount; i++)
             textureObj.addToTextureArray(RES + "textures/Cards/CardImg" + i + ".png");
+        textureObj.addToTextureAtlas(RES + "textures/UI/Background.png");
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

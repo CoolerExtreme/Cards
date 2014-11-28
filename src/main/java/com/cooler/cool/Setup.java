@@ -12,7 +12,7 @@ public class Setup
     public void setup()
     {
         GOList.add(new GOCard(0, 0, 0, 1));
-        GOList.add(new GOCard(-20, 0, 0, 1));
-        GOList.add(new GOCard(20, 0, 0, 2));
+        GOList.add(new GOCard(-200, 0, 0, 1));
+        GOList.add(new GOCard(200, 0, 0, 2));
     }
 }
