@@ -7,11 +7,12 @@ import java.util.ArrayList;
 
 public class Setup
 {
-    ArrayList<GameObject> GOList = new ArrayList<GameObject>();
+    ArrayList<GameObject> GOList;
 
     public void setup()
     {
-        GOList.add(new GOCard(0, 0, 0, 1));
+        GOList = new ArrayList<GameObject>();
+        GOList.add(new GOCard(0, -100, 0, 1));
         GOList.add(new GOCard(-200, 0, 0, 1));
         GOList.add(new GOCard(200, 0, 0, 2));
     }

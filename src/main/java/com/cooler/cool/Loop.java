@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.Collections;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
@@ -41,6 +42,7 @@ public class Loop
             pos.clear();
             tex.clear();
             index.clear();
+            Collections.sort(setupObj.GOList);
             for (GameObject go : setupObj.GOList)
             {
                 i = go.addToBuffer(pos, tex, index, i);

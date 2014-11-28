@@ -3,7 +3,7 @@ package com.cooler.cool.GameObjects;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-public abstract class GameObject
+public abstract class GameObject implements Comparable<GameObject>
 {
     public GameObject(float x, float y, float z, float w, float h, int texLayer)
     {
@@ -102,4 +102,10 @@ public abstract class GameObject
     private int texLayer;
 
 
+    @Override
+    public int compareTo(GameObject o)
+    {
+        float objZ = o.getZ();
+        return this.z > objZ ? -1 : (this.z < objZ ? 1 : 0);
+    }
 }
