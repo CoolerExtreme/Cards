@@ -72,6 +72,7 @@ public class Shaders
             System.err.println("Uniforms cannot have more than 4 values");
             Main.ErrorClose();
         }
+        bind();
         int location = glGetUniformLocation(id, name);
         switch (values.length)
         {
@@ -88,6 +89,7 @@ public class Shaders
                 glUniform4i(location, values[0], values[1], values[2], values[3]);
                 break;
         }
+        unbind();
         Main.exitOnGLError("setting Uniform " + name);
     }
 
