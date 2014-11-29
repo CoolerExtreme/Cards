@@ -62,7 +62,7 @@ public class Main
 
     private void setup()
     {
-        setupObj.setup();
+        setupObj.setup(initObj);
     }
 
     private void loop()

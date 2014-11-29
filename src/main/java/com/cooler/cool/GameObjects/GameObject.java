@@ -1,9 +1,11 @@
 package com.cooler.cool.GameObjects;
 
+import com.cooler.cool.Util.IGameObject;
+
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-public abstract class GameObject implements Comparable<GameObject>
+public abstract class GameObject implements Comparable<GameObject>, IGameObject
 {
     public GameObject(float x, float y, float z, float w, float h, int texLayer, int xoff, int yoff, int u, int v)
     {
@@ -19,7 +21,11 @@ public abstract class GameObject implements Comparable<GameObject>
         this.v = v;
     }
 
-    public abstract boolean activeUpdate();
+    public abstract boolean activeUpdateKey(long window, int key, int scancode, int action, int mods);
+
+    public abstract void activeUpdateMouseButton(long window, int button, int action, int mods);
+
+    public abstract void activeUpdateCursorPos(long window, double xpos, double ypos);
 
     public abstract void passiveUpdate(double delta);
 

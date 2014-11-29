@@ -10,9 +10,9 @@ public class Setup
 {
     ArrayList<GameObject> GOList;
 
-    public void setup()
+    public void setup(Initialize initObj)
     {
-        GOList = new ArrayList<GameObject>();
+        GOList = initObj.getGOList();
         GOList.add(new GOCard(0, -100, 0, 1));
         GOList.add(new GOCard(-200, 0, 0, 1));
         GOList.add(new GOCard(200, 0, 0, 2));

@@ -1,5 +1,7 @@
 package com.cooler.cool;
 
+import com.cooler.cool.GameObjects.GOBackground;
+import com.cooler.cool.GameObjects.GameObject;
 import com.cooler.cool.Util.Shaders.Shaders;
 
 import static com.cooler.cool.Util.References.*;
@@ -30,12 +32,21 @@ import org.lwjgl.system.glfw.WindowCallbackAdapter;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.lwjgl.system.glfw.GLFW.*;
 
 public class Initialize
 {
     private Textures textureObj;
+
+    public ArrayList<GameObject> getGOList()
+    {
+        return GOList;
+    }
+
+    private ArrayList<GameObject> GOList;
     private int cardCount = 3;
 
     public FloatBuffer getPosBuf()
@@ -146,8 +157,23 @@ public class Initialize
         if (window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
+        GOList = new ArrayList<GameObject>();
         WindowCallback.set(window, new WindowCallbackAdapter()
         {
+            @Override
+            public void mouseButton(long window, int button, int action, int mods)
+            {
+                for (GameObject go : GOList)
+                    go.activeUpdateMouseButton(window, button, action, mods);
+            }
+
+            @Override
+            public void cursorPos(long window, double xpos, double ypos)
+            {
+                for (GameObject go : GOList)
+                    go.activeUpdateCursorPos(window, xpos, ypos);
+            }
+
             @Override
             public void windowSize(long window, int width, int height)
             {
@@ -158,6 +184,8 @@ public class Initialize
             @Override
             public void key(long window, int key, int scancode, int action, int mods)
             {
+                for (GameObject go : GOList)
+                    go.activeUpdateKey(window, key, scancode, action, mods);
                 if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                     glfwSetWindowShouldClose(window, GL11.GL_TRUE);
             }
@@ -212,7 +240,7 @@ public class Initialize
         textureObj = new Textures(cardCount);
         for (int i = 0; i < cardCount; i++)
             textureObj.addToTextureArray(RES + "textures/Cards/CardImg" + i + ".png");
-        textureObj.addToTextureAtlas(RES + "textures/UI/Background.png");
+        textureObj.addToTextureAtlas(RES + "textures/UI/Background.png", new GOBackground());
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

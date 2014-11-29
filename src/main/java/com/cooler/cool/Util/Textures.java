@@ -1,5 +1,6 @@
 package com.cooler.cool.Util;
 
+import com.cooler.cool.GameObjects.GameObject;
 import com.cooler.cool.Main;
 import org.lwjgl.BufferUtils;
 
@@ -8,7 +9,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 
+import static com.cooler.cool.Main.exitOnGLError;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.glTexSubImage3D;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
@@ -92,11 +95,11 @@ public class Textures
         setActiveTextureUnit(0);
         glBindTexture(GL_TEXTURE_2D_ARRAY, arrTexId);
         glTexSubImage3D(GL_TEXTURE_2D_ARRAY, 0, 0, 0, currentLayer, arrayWidth, arrayHeight, 1, GL_RGBA, GL_UNSIGNED_BYTE, arrBuffer);
-
+        exitOnGLError("Loading to Texture Array:" + name);
         return currentLayer++;
     }
 
-    public void addToTextureAtlas(String name)
+    public void addToTextureAtlas(String name, GameObject go)
     {
         BufferedImage bimg;
         int[] pixels = null;
@@ -130,6 +133,7 @@ public class Textures
         glBindTexture(GL_TEXTURE_2D, atlasTexId);
         if (maxHeight == 0)
         {
+            go.setOffsets(xoff, yoff);
             maxHeight = height;
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, atlasBuffer);
             xoff += width;
@@ -137,12 +141,16 @@ public class Textures
         {
             yoff += maxHeight;
             xoff = 0;
+            go.setOffsets(xoff, yoff);
             maxHeight = height;
             glTexSubImage2D(GL_TEXTURE_2D, 0, xoff, yoff, width, height, GL_RGBA, GL_UNSIGNED_BYTE, atlasBuffer);
+            xoff = width;
         } else
         {
+            go.setOffsets(xoff, yoff);
             glTexSubImage2D(GL_TEXTURE_2D, 0, xoff, yoff, width, height, GL_RGBA, GL_UNSIGNED_BYTE, atlasBuffer);
             xoff += width;
         }
+        exitOnGLError("Loading to Texture Atlas:" + name);
     }
 }
