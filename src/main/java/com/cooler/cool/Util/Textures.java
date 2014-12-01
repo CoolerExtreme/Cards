@@ -99,7 +99,7 @@ public class Textures
         return currentLayer++;
     }
 
-    public void addToTextureAtlas(String name, GameObject go)
+    public void addToTextureAtlas(String name, GameObject go, boolean isText)
     {
         BufferedImage bimg;
         int[] pixels = null;
@@ -131,6 +131,11 @@ public class Textures
 
         setActiveTextureUnit(1);
         glBindTexture(GL_TEXTURE_2D, atlasTexId);
+        if(isText)
+        {
+            go.setW(width);
+            go.setH(height);
+        }
         if (maxHeight == 0)
         {
             go.setOffsets(xoff, yoff);

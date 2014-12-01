@@ -6,6 +6,7 @@ import com.cooler.cool.Util.Shaders.Shaders;
 
 import static com.cooler.cool.Util.References.*;
 
+import com.cooler.cool.Util.TextRenderer;
 import com.cooler.cool.Util.Textures;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -240,7 +241,8 @@ public class Initialize
         textureObj = new Textures(cardCount);
         for (int i = 0; i < cardCount; i++)
             textureObj.addToTextureArray(RES + "textures/Cards/CardImg" + i + ".png");
-        textureObj.addToTextureAtlas(RES + "textures/UI/Background.png", new GOBackground());
+        textureObj.addToTextureAtlas(RES + "textures/UI/Background.png", new GOBackground(), false);
+        TextRenderer.addFont(textureObj, "Awesome", "abcde");
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

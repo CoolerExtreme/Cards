@@ -1,6 +1,8 @@
 package com.cooler.cool;
 
 import com.cooler.cool.GameObjects.GameObject;
+import com.cooler.cool.Util.TextObj;
+import com.cooler.cool.Util.TextRenderer;
 import org.lwjgl.opengl.GL11;
 
 import java.nio.FloatBuffer;
@@ -31,6 +33,7 @@ public class Loop
         prevFrame = glfwGetTime();
         while (glfwWindowShouldClose(window) == GL11.GL_FALSE)
         {
+            TextRenderer.addText(new TextObj(0, 0, "abcde", "Awesome", 1));
             drawCount = i = 0;
             glViewport(0, 0, initObj.getWIDTH(), initObj.getHEIGHT());
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -56,6 +59,7 @@ public class Loop
                 i = go.addToBuffer(pos, tex, index, i);
                 drawCount += 5;
             }
+            drawCount = TextRenderer.addTextToBuffer(pos, tex, index, i, drawCount);
             pos.flip();
             tex.flip();
             index.flip();
