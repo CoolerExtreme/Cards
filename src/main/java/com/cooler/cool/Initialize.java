@@ -243,8 +243,8 @@ public class Initialize
         for (int i = 0; i < cardCount; i++)
             textureObj.addToTextureArray(RES + "textures/Cards/CardImg" + i + ".png");
 
-        textureObj.addToTextureAtlas(RES + "textures/UI/Menu.png", new GOMenu(), false);
         textureObj.addToTextureAtlas(RES + "textures/UI/Background.png", new GOBackground(), false);
+        textureObj.addToTextureAtlas(RES + "textures/UI/Menu.png", new GOMenu(), false);
         textureObj.addToTextureAtlas(RES + "textures/UI/Test.png", new GOTest(), false);
 
         TextRenderer.addFont(textureObj, "Awesome", "abcde");

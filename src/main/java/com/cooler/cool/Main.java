@@ -15,9 +15,6 @@ public class Main
     private static Main instance;
     private Setup setupObj;
 
-    public static boolean testRender = true;
-    public static int testCount = 0;
-
     public static void main(String[] args)
     {
         instance = new Main();

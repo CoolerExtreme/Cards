@@ -31,13 +31,6 @@ public abstract class GameObject implements Comparable<GameObject>, IGameObject
 
     public short addToBuffer(FloatBuffer posBuf, FloatBuffer texBuf, ShortBuffer indexBuf, short i)
     {
-        if (Main.testRender)
-        {
-            System.out.println(x + ":" + y + ":" + z + ":" + w + ":" + h + ":" + xoff + ":" + yoff + ":" + u + ":" + v + ":" + i);
-            Main.testCount++;
-            if (Main.testCount > 5)
-                Main.testRender = false;
-        }
         posBuf.put(new float[]{x, y + h,
                 x + w, y + h,
                 x, y,
@@ -45,7 +38,7 @@ public abstract class GameObject implements Comparable<GameObject>, IGameObject
         texBuf.put(new float[]{xoff, yoff, texLayer,
                 xoff + u, yoff, texLayer,
                 xoff, yoff + v, texLayer,
-                xoff + u, xoff + v, texLayer});
+                xoff + u, yoff + v, texLayer});
         indexBuf.put(new short[]{i, (short) (i + 1), (short) (i + 2), (short) (i + 3), 32767});
         i += 4;
         return i;
