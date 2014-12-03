@@ -1,8 +1,7 @@
-package com.cooler.cool.Util.UI;
+package com.cooler.cool.GameObjects;
 
-import com.cooler.cool.GameObjects.GameObject;
-import com.cooler.cool.Util.TextObj;
-import com.cooler.cool.Util.TextRenderer;
+import com.cooler.cool.Util.Text.TextObj;
+import com.cooler.cool.Util.Text.TextRenderer;
 
 public class GOMenu extends GameObject
 {
@@ -13,7 +12,7 @@ public class GOMenu extends GameObject
 
     public GOMenu()
     {
-        super(-200, -100, 0.1f, 64, 95, 0, xoff, yoff, 64, 95);
+        super(-200, -100, 0, 64, 95, 0, xoff, yoff, 63, 94);
         this.noOfOptions = 4;
     }
 
@@ -51,7 +50,7 @@ public class GOMenu extends GameObject
     @Override
     public void passiveUpdate(double delta)
     {
-        //TextRenderer.addText(new TextObj(this.getX(), this.getY(), "abcd", "Awesome", 0.2f));
+        TextRenderer.addText(new TextObj(this.getX(), this.getY(), "abcd", "Awesome", 0.4f));
     }
 
     @Override

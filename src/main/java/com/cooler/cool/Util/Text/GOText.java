@@ -1,4 +1,4 @@
-package com.cooler.cool.Util;
+package com.cooler.cool.Util.Text;
 
 import com.cooler.cool.GameObjects.GameObject;
 

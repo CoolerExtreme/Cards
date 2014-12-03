@@ -1,4 +1,4 @@
-package com.cooler.cool.Util.UI;
+package com.cooler.cool.GameObjects;
 
 import com.cooler.cool.GameObjects.GameObject;
 
@@ -8,7 +8,7 @@ public class GOTest extends GameObject
 
     public GOTest()
     {
-        super(0, 0, 0.1f, 100, 100, 0, xoff, yoff, 40, 40);
+        super(0, 0, 0, 100, 100, 0, xoff, yoff, 39, 39);
     }
 
     @Override
@@ -32,6 +32,7 @@ public class GOTest extends GameObject
     @Override
     public void passiveUpdate(double delta)
     {
+
     }
 
     @Override

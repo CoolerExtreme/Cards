@@ -1,4 +1,4 @@
-package com.cooler.cool.Util;
+package com.cooler.cool.GameObjects;
 
 public interface IGameObject
 {

@@ -1,7 +1,6 @@
 package com.cooler.cool.GameObjects;
 
 import com.cooler.cool.Main;
-import com.cooler.cool.Util.IGameObject;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;

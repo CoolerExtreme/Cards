@@ -13,8 +13,7 @@ void main()
 {
     tex1 = texture(texArray, texCoords);
     tex2 = texelFetch(texAtlas, ivec2(texCoords.xy), 0);
-    float par = texCoords.z;
-    if(par < 0.5)
+    if(texCoords.z < 0.5)
         outColor = tex2;
     else
         outColor = tex1;

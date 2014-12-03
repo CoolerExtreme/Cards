@@ -6,17 +6,16 @@ import com.cooler.cool.Util.Shaders.Shaders;
 
 import static com.cooler.cool.Util.References.*;
 
-import com.cooler.cool.Util.TextRenderer;
+import com.cooler.cool.Util.Text.TextRenderer;
 import com.cooler.cool.Util.Textures;
-import com.cooler.cool.Util.UI.GOMenu;
-import com.cooler.cool.Util.UI.GOTest;
+import com.cooler.cool.GameObjects.GOMenu;
+import com.cooler.cool.GameObjects.GOTest;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
@@ -36,7 +35,6 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.lwjgl.system.glfw.GLFW.*;
 
@@ -245,8 +243,8 @@ public class Initialize
         for (int i = 0; i < cardCount; i++)
             textureObj.addToTextureArray(RES + "textures/Cards/CardImg" + i + ".png");
 
-        textureObj.addToTextureAtlas(RES + "textures/UI/Background.png", new GOBackground(), false);
         textureObj.addToTextureAtlas(RES + "textures/UI/Menu.png", new GOMenu(), false);
+        textureObj.addToTextureAtlas(RES + "textures/UI/Background.png", new GOBackground(), false);
         textureObj.addToTextureAtlas(RES + "textures/UI/Test.png", new GOTest(), false);
 
         TextRenderer.addFont(textureObj, "Awesome", "abcde");

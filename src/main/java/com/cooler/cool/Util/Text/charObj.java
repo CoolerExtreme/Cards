@@ -1,4 +1,6 @@
-package com.cooler.cool.Util;
+package com.cooler.cool.Util.Text;
+
+import com.cooler.cool.Util.Text.TextRenderer;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;

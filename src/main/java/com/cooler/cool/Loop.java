@@ -1,8 +1,7 @@
 package com.cooler.cool;
 
 import com.cooler.cool.GameObjects.GameObject;
-import com.cooler.cool.Util.TextObj;
-import com.cooler.cool.Util.TextRenderer;
+import com.cooler.cool.Util.Text.TextRenderer;
 import org.lwjgl.opengl.GL11;
 
 import java.nio.FloatBuffer;

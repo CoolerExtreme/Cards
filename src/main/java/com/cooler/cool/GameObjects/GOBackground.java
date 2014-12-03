@@ -5,7 +5,7 @@ public class GOBackground extends GameObject
     private static int xoff, yoff;
     public GOBackground()
     {
-        super(-640, -360, 1, 1280, 720, 0, xoff, yoff, 1280, 720);
+        super(-640, -360, 1, 1280, 720, 0, xoff, yoff, 1279, 719);
     }
 
     @Override
