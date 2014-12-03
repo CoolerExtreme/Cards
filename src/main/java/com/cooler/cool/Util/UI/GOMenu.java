@@ -52,7 +52,6 @@ public class GOMenu extends GameObject
     public void passiveUpdate(double delta)
     {
         //TextRenderer.addText(new TextObj(this.getX(), this.getY(), "abcd", "Awesome", 0.2f));
-        this.setW(this.getW() + (float)delta * 10f);
     }
 
     @Override
