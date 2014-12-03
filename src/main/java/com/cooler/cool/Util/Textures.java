@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.HashMap;
 
 import static com.cooler.cool.Main.exitOnGLError;
 import static org.lwjgl.opengl.GL11.*;
@@ -19,7 +18,7 @@ import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 import static org.lwjgl.opengl.GL42.glTexStorage2D;
 import static org.lwjgl.opengl.GL42.glTexStorage3D;
-
+import static com.cooler.cool.Util.References.*;
 
 public class Textures
 {
@@ -53,7 +52,7 @@ public class Textures
         setActiveTextureUnit(1);
         atlasTexId = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, atlasTexId);
-        glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA, 2048, 2048);
+        glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA, ATLAS_WIDTH, ATLAS_HEIGHT);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -131,7 +130,7 @@ public class Textures
 
         setActiveTextureUnit(1);
         glBindTexture(GL_TEXTURE_2D, atlasTexId);
-        if(isText)
+        if (isText)
         {
             go.setW(width);
             go.setH(height);
@@ -142,14 +141,14 @@ public class Textures
             maxHeight = height;
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, atlasBuffer);
             xoff += width;
-        } else if ((height > maxHeight) || (xoff + width > 2048))
+        } else if ((height > maxHeight) || (xoff + width >= 2048))
         {
             yoff += maxHeight;
             xoff = 0;
             go.setOffsets(xoff, yoff);
             maxHeight = height;
             glTexSubImage2D(GL_TEXTURE_2D, 0, xoff, yoff, width, height, GL_RGBA, GL_UNSIGNED_BYTE, atlasBuffer);
-            xoff = width;
+            xoff += width;
         } else
         {
             go.setOffsets(xoff, yoff);
@@ -157,5 +156,41 @@ public class Textures
             xoff += width;
         }
         exitOnGLError("Loading to Texture Atlas:" + name);
+    }
+
+    public void writeTextureAtlasToFile()
+    {
+        ByteBuffer AtlasTexture = BufferUtils.createByteBuffer(ATLAS_WIDTH * ATLAS_HEIGHT * 4);
+        setActiveTextureUnit(1);
+        glBindTexture(GL_TEXTURE_2D, atlasTexId);
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, AtlasTexture);
+        exitOnGLError("Writing Texture Atlas");
+        int[] rgb = new int[ATLAS_WIDTH * ATLAS_HEIGHT];
+        for (int i = 0; i < rgb.length; i++)
+        {
+            int pixelR = AtlasTexture.get();
+            int pixelG = AtlasTexture.get();
+            int pixelB = AtlasTexture.get();
+            int pixelA = AtlasTexture.get();
+            rgb[i] = (((pixelA << 24) & 0xFF000000) + ((pixelR << 16) & 0x00FF0000) + ((pixelG << 8) & 0x0000FF00) + (pixelB & 0x000000FF));
+        }
+        BufferedImage bimg = null;
+        try
+        {
+            bimg = ImageIO.read(new File(RES + "/textures/TextureAtlas.png"));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+            Main.ErrorClose();
+        }
+        bimg.setRGB(0, 0, ATLAS_WIDTH, ATLAS_HEIGHT, rgb, 0, ATLAS_WIDTH);
+        try
+        {
+            ImageIO.write(bimg, "png", new File(RES + "/textures/TextureAtlas.png"));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+            Main.ErrorClose();
+        }
     }
 }

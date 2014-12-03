@@ -1,18 +1,14 @@
-package com.cooler.cool.GameObjects;
+package com.cooler.cool.Util.UI;
 
-public class GOBackground extends GameObject
+import com.cooler.cool.GameObjects.GameObject;
+
+public class GOTest extends GameObject
 {
     private static int xoff, yoff;
-    public GOBackground()
-    {
-        super(-640, -360, 1, 1280, 720, 0, xoff, yoff, 1280, 720);
-    }
 
-    @Override
-    public void setOffsets(int x, int y)
+    public GOTest()
     {
-        xoff = x;
-        yoff = y;
+        super(0, 0, 0.1f, 100, 100, 0, xoff, yoff, 40, 40);
     }
 
     @Override
@@ -36,6 +32,12 @@ public class GOBackground extends GameObject
     @Override
     public void passiveUpdate(double delta)
     {
+    }
 
+    @Override
+    public void setOffsets(int x, int y)
+    {
+        xoff = x;
+        yoff = y;
     }
 }

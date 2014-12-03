@@ -8,6 +8,8 @@ import static com.cooler.cool.Util.References.*;
 
 import com.cooler.cool.Util.TextRenderer;
 import com.cooler.cool.Util.Textures;
+import com.cooler.cool.Util.UI.GOMenu;
+import com.cooler.cool.Util.UI.GOTest;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -238,11 +240,19 @@ public class Initialize
         glBindVertexArray(0);
 //---------------------------------BUFFERS----------------------------------//
 
+//---------------------------------TEXTURES----------------------------------//
         textureObj = new Textures(cardCount);
         for (int i = 0; i < cardCount; i++)
             textureObj.addToTextureArray(RES + "textures/Cards/CardImg" + i + ".png");
+
         textureObj.addToTextureAtlas(RES + "textures/UI/Background.png", new GOBackground(), false);
+        textureObj.addToTextureAtlas(RES + "textures/UI/Menu.png", new GOMenu(), false);
+        textureObj.addToTextureAtlas(RES + "textures/UI/Test.png", new GOTest(), false);
+
         TextRenderer.addFont(textureObj, "Awesome", "abcde");
+
+        textureObj.writeTextureAtlasToFile();
+//---------------------------------TEXTURES----------------------------------//
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

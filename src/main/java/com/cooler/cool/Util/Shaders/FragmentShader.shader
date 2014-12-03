@@ -15,8 +15,7 @@ void main()
     tex2 = texelFetch(texAtlas, ivec2(texCoords.xy), 0);
     float par = texCoords.z;
     if(par < 0.5)
-    {
-    tex1 = tex2;
-    }
-    outColor = tex1;
+        outColor = tex2;
+    else
+        outColor = tex1;
 }

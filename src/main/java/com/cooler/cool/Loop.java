@@ -33,7 +33,6 @@ public class Loop
         prevFrame = glfwGetTime();
         while (glfwWindowShouldClose(window) == GL11.GL_FALSE)
         {
-            TextRenderer.addText(new TextObj(0, 0, "abcde", "Awesome", 1));
             drawCount = i = 0;
             glViewport(0, 0, initObj.getWIDTH(), initObj.getHEIGHT());
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
