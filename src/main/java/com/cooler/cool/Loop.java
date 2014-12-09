@@ -71,7 +71,7 @@ public class Loop
             glEnableVertexAttribArray(5);
             glEnableVertexAttribArray(6);
 
-            glDrawElementsInstanced(GL_TRIANGLE_STRIP, GL_UNSIGNED_BYTE, initObj.getIndexBuf(), 1);
+            glDrawElementsInstanced(GL_TRIANGLE_STRIP, GL_UNSIGNED_BYTE, initObj.getIndexBuf(), setupObj.GOList.size());
 
             glDisableVertexAttribArray(0);
             glDisableVertexAttribArray(1);
