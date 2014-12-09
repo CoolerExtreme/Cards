@@ -18,7 +18,7 @@ public class Cleanup
         glBindVertexArray(0);
 
         glDeleteBuffers(initObj.getVboVertID());
-        glDeleteBuffers(initObj.getVboTexID());
+        glDeleteBuffers(initObj.getVboInstanceID());
         glDeleteBuffers(initObj.getEboID());
 
         glDeleteVertexArrays(initObj.getVaoID());

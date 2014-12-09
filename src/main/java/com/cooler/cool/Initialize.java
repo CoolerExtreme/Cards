@@ -21,6 +21,7 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 import static org.lwjgl.opengl.GL31.GL_PRIMITIVE_RESTART;
 import static org.lwjgl.opengl.GL31.glPrimitiveRestartIndex;
+import static org.lwjgl.opengl.GL33.glVertexAttribDivisor;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import static org.lwjgl.opengl.GL20.*;
@@ -32,6 +33,7 @@ import org.lwjgl.system.glfw.WindowCallback;
 import org.lwjgl.system.glfw.WindowCallbackAdapter;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
@@ -41,34 +43,38 @@ import static org.lwjgl.system.glfw.GLFW.*;
 public class Initialize
 {
     private Textures textureObj;
+    private ArrayList<GameObject> GOList;
+    private int cardCount = 3;
+    private FloatBuffer vertexBuf;
+    private FloatBuffer instanceBuf;
+    private ByteBuffer indexBuf;
+    private int vaoID;
+    private int vboVertID;
+    private int eboID;
+    private Shaders shader;
+    private int WIDTH = 1280;
+    private int HEIGHT = 720;
+    private long window;
+    private int vboInstanceID;
+
+    public int getVboInstanceID()
+    {
+        return vboInstanceID;
+    }
+
+    public FloatBuffer getInstanceBuf()
+    {
+        return instanceBuf;
+    }
 
     public ArrayList<GameObject> getGOList()
     {
         return GOList;
     }
-
-    private ArrayList<GameObject> GOList;
-    private int cardCount = 3;
-
-    public FloatBuffer getPosBuf()
-    {
-        return posBuf;
-    }
-
-    public FloatBuffer getTexBuf()
-    {
-        return texBuf;
-    }
-
-    public ShortBuffer getIndexBuf()
+    public ByteBuffer getIndexBuf()
     {
         return indexBuf;
     }
-
-    private FloatBuffer posBuf;
-    private FloatBuffer texBuf;
-    private ShortBuffer indexBuf;
-
     public int getVaoID()
     {
         return vaoID;
@@ -79,20 +85,10 @@ public class Initialize
         return vboVertID;
     }
 
-    public int getVboTexID()
-    {
-        return vboTexID;
-    }
-
     public int getEboID()
     {
         return eboID;
     }
-
-    private int vaoID;
-    private int vboVertID;
-    private int vboTexID;
-    private int eboID;
 
     public Shaders getShader()
     {
@@ -104,7 +100,6 @@ public class Initialize
         this.shader = shader;
     }
 
-    private Shaders shader;
 
     public int getWIDTH()
     {
@@ -136,10 +131,6 @@ public class Initialize
         this.window = window;
     }
 
-    private int WIDTH = 1280;
-    private int HEIGHT = 720;
-    private long window;
-
     public void init()
     {
         glfwSetErrorCallback(ErrorCallback.Util.getDefault());
@@ -164,15 +155,19 @@ public class Initialize
             @Override
             public void mouseButton(long window, int button, int action, int mods)
             {
+                Main.getInstance().getSetupObj().setIterating(true);
                 for (GameObject go : GOList)
                     go.activeUpdateMouseButton(window, button, action, mods);
+                Main.getInstance().getSetupObj().setIterating(false);
             }
 
             @Override
             public void cursorPos(long window, double xpos, double ypos)
             {
+                Main.getInstance().getSetupObj().setIterating(true);
                 for (GameObject go : GOList)
                     go.activeUpdateCursorPos(window, xpos, ypos);
+                Main.getInstance().getSetupObj().setIterating(false);
             }
 
             @Override
@@ -185,8 +180,10 @@ public class Initialize
             @Override
             public void key(long window, int key, int scancode, int action, int mods)
             {
+                Main.getInstance().getSetupObj().setIterating(true);
                 for (GameObject go : GOList)
                     go.activeUpdateKey(window, key, scancode, action, mods);
+                Main.getInstance().getSetupObj().setIterating(false);
                 if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                     glfwSetWindowShouldClose(window, GL11.GL_TRUE);
             }
@@ -215,25 +212,43 @@ public class Initialize
 //---------------------------------SHADERS----------------------------------//
 
 //---------------------------------BUFFERS----------------------------------//
-        posBuf = BufferUtils.createFloatBuffer(3 * 4 * 128);
-        texBuf = BufferUtils.createFloatBuffer(3 * 4 * 128);
-        indexBuf = BufferUtils.createShortBuffer(1024);
+        vertexBuf = BufferUtils.createFloatBuffer(8);
+        vertexBuf.put(new float[]{0, 1, 1, 1, 0, 0, 1, 0});
+        vertexBuf.flip();
+
+        instanceBuf = BufferUtils.createFloatBuffer(21 * 1024);
+        indexBuf = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder());
+        indexBuf.put(new byte[]{0, 1, 2, 3});
+        indexBuf.flip();
 
         vaoID = glGenVertexArrays();
         glBindVertexArray(vaoID);
 
         vboVertID = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vboVertID);
+        glBufferData(GL_ARRAY_BUFFER, vertexBuf, GL_STATIC_DRAW);
         glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-        vboTexID = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, vboTexID);
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        vboInstanceID = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, vboInstanceID);
+        glVertexAttribPointer(1, 4, GL_FLOAT, false, 21 * 4, 0);
+        glVertexAttribPointer(2, 4, GL_FLOAT, false, 21 * 4, 4 * 4);
+        glVertexAttribPointer(3, 4, GL_FLOAT, false, 21 * 4, 8 * 4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, false, 21 * 4, 12 * 4);
+
+        glVertexAttribPointer(5, 4, GL_FLOAT, false, 21 * 4, 16 * 4);
+        glVertexAttribPointer(6, 1, GL_FLOAT, false, 21 * 4, 20 * 4);
+
+        glVertexAttribDivisor(1, 1);
+        glVertexAttribDivisor(2, 1);
+        glVertexAttribDivisor(3, 1);
+        glVertexAttribDivisor(4, 1);
+        glVertexAttribDivisor(5, 1);
+        glVertexAttribDivisor(6, 1);
 
         eboID = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboID);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuf, GL_STATIC_DRAW);
 
         glBindVertexArray(0);
 //---------------------------------BUFFERS----------------------------------//
@@ -244,11 +259,18 @@ public class Initialize
             textureObj.addToTextureArray(RES + "textures/Cards/CardImg" + i + ".png");
 
         textureObj.addToTextureAtlas(RES + "textures/UI/Background.png", new GOBackground(), false);
-        textureObj.addToTextureAtlas(RES + "textures/UI/Menu.png", new GOMenu(), false);
+        /*textureObj.addToTextureAtlas(RES + "textures/UI/Menu.png", new GOMenu(0, 0), false);
         textureObj.addToTextureAtlas(RES + "textures/UI/Test.png", new GOTest(), false);
 
-        TextRenderer.addFont(textureObj, "Awesome", "abcde");
-
+        TextRenderer.addFontFromFFT("OpenSans/OpenSans-Regular.ttf");
+        StringBuilder defaultCharSet = new StringBuilder();
+        for(char c = 0;c < 256;c++)
+        {
+            if(c != 9 && c != 10 && c!= 13)
+                defaultCharSet.append(c);
+        }
+        TextRenderer.addFont(textureObj, "OpenSans", defaultCharSet.toString());
+*/
         textureObj.writeTextureAtlasToFile();
 //---------------------------------TEXTURES----------------------------------//
 

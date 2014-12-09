@@ -10,9 +10,9 @@ public class GOMenu extends GameObject
     private int noOfOptions;
     private boolean selected;
 
-    public GOMenu()
+    public GOMenu(float x, float y)
     {
-        super(-200, -100, 0, 64, 95, 0, xoff, yoff, 63, 94);
+        super(x, y, 0, 64, 95, 0, xoff, yoff, 63, 94);
         this.noOfOptions = 4;
     }
 
@@ -50,7 +50,7 @@ public class GOMenu extends GameObject
     @Override
     public void passiveUpdate(double delta)
     {
-        TextRenderer.addText(new TextObj(this.getX(), this.getY(), "abcd", "Awesome", 0.4f));
+        TextRenderer.addText(new TextObj(this.getX(), this.getY(), "Option 1", "OpenSans", 0.4f));
     }
 
     @Override

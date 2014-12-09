@@ -12,7 +12,21 @@ public class Main
     private Initialize initObj;
     private Loop loopObj;
     private Cleanup cleanupObj;
+
+    public static boolean debug = true;
+
+    public static Main getInstance()
+    {
+        return instance;
+    }
+
     private static Main instance;
+
+    public Setup getSetupObj()
+    {
+        return setupObj;
+    }
+
     private Setup setupObj;
 
     public static void main(String[] args)

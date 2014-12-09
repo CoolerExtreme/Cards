@@ -1,5 +1,7 @@
 package com.cooler.cool.GameObjects;
 
+import com.cooler.cool.Main;
+
 import static org.lwjgl.system.glfw.GLFW.*;
 
 public class GOCard extends GameObject
@@ -8,6 +10,11 @@ public class GOCard extends GameObject
     private double cursorY;
     private double cOffX;
     private double cOffY;
+    private boolean shouldOpenMenu = false;
+    private int menuIndex = 0;
+    private boolean menuClosed = true;
+    private boolean shouldCloseMenu = false;
+    private GOMenu menu;
 
     public GOCard(float x, float y, float z, int texLayer)
     {
@@ -31,8 +38,17 @@ public class GOCard extends GameObject
             cOffX = this.getX() - cursorX;
             cOffY = this.getY() - cursorY;
         }
-        else
+        else if(selected2)
             selected2 = false;
+        if(selected && button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS && menuClosed)
+        {
+            shouldOpenMenu = true;
+        }
+        else if(!menuClosed && !selected && action == GLFW_PRESS)
+        {
+            shouldOpenMenu = false;
+            shouldCloseMenu = true;
+        }
     }
 
     @Override
@@ -55,6 +71,21 @@ public class GOCard extends GameObject
         {
             this.setX((float) (cursorX + cOffX));
             this.setY((float) (cursorY + cOffY));
+        }
+        if(shouldOpenMenu && menuClosed)
+        {
+            menu = new GOMenu((float)cursorX, (float)cursorY);
+            menuClosed = false;
+            shouldOpenMenu = false;
+            shouldCloseMenu = false;
+            Main.getInstance().getSetupObj().addGO(menu);
+        }
+        if(shouldCloseMenu && !menuClosed)
+        {
+            menuClosed = true;
+            shouldOpenMenu = false;
+            shouldCloseMenu = false;
+            Main.getInstance().getSetupObj().removeGO(menu);
         }
     }
 

@@ -1,6 +1,8 @@
 package com.cooler.cool.GameObjects;
 
 import com.cooler.cool.Main;
+import com.cooler.cool.Util.Math.Matrix4f;
+
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -19,6 +21,7 @@ public abstract class GameObject implements Comparable<GameObject>, IGameObject
         this.yoff = yoff;
         this.u = u;
         this.v = v;
+        transform = new Matrix4f(new float[]{x, y, 0}, new float[]{w, h, 1});
     }
 
     public abstract boolean activeUpdateKey(long window, int key, int scancode, int action, int mods);
@@ -28,6 +31,12 @@ public abstract class GameObject implements Comparable<GameObject>, IGameObject
     public abstract void activeUpdateCursorPos(long window, double xpos, double ypos);
 
     public abstract void passiveUpdate(double delta);
+
+    public void addToBuffer(FloatBuffer instanceData)
+    {
+        instanceData.put(transform.getColumnMajor());
+        instanceData.put(new float[]{xoff, yoff, w, h, texLayer});
+    }
 
     public short addToBuffer(FloatBuffer posBuf, FloatBuffer texBuf, ShortBuffer indexBuf, short i)
     {
@@ -110,6 +119,7 @@ public abstract class GameObject implements Comparable<GameObject>, IGameObject
     private float w;
     private float h;
     private int texLayer, xoff, yoff, u, v;
+    private Matrix4f transform;
 
 
     @Override
