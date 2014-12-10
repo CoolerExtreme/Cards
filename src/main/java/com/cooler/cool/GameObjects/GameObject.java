@@ -35,7 +35,7 @@ public abstract class GameObject implements Comparable<GameObject>, IGameObject
     public void addToBuffer(FloatBuffer instanceData)
     {
         instanceData.put(transform.getColumnMajor());
-        instanceData.put(new float[]{xoff, yoff, w, h, texLayer});
+        instanceData.put(new float[]{xoff, yoff, u, v, texLayer});
     }
 
     public short addToBuffer(FloatBuffer posBuf, FloatBuffer texBuf, ShortBuffer indexBuf, short i)
@@ -119,6 +119,12 @@ public abstract class GameObject implements Comparable<GameObject>, IGameObject
     private float w;
     private float h;
     private int texLayer, xoff, yoff, u, v;
+
+    public Matrix4f getTransform()
+    {
+        return transform;
+    }
+
     private Matrix4f transform;
 
 

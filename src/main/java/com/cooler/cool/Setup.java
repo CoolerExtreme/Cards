@@ -31,6 +31,7 @@ public class Setup
         removeList = new ArrayList<GameObject>();
 
         addGO(new GOBackground());
+        addGO(new GOCard(0, 0, 0, 1));
     }
 
     public void addGO(GameObject go)

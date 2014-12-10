@@ -60,10 +60,24 @@ public class Matrix4f
         elements[11] += pos[2];
     }
 
+    public void setTranslation(float[] pos)
+    {
+        elements[3] = pos[0];
+        elements[7] = pos[1];
+        elements[11] = pos[2];
+    }
+
     public void scale(float[] factor)
     {
         elements[0] *= factor[0];
         elements[5] *= factor[1];
         elements[10] *= factor[2];
+    }
+
+    public void setScale(float[] factor)
+    {
+        elements[0] = factor[0];
+        elements[5] = factor[1];
+        elements[10] = factor[2];
     }
 }

@@ -4,6 +4,7 @@ import com.cooler.cool.GameObjects.GameObject;
 import com.cooler.cool.Util.Text.TextRenderer;
 import org.lwjgl.opengl.GL11;
 
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.Collections;
@@ -71,7 +72,7 @@ public class Loop
             glEnableVertexAttribArray(5);
             glEnableVertexAttribArray(6);
 
-            glDrawElementsInstanced(GL_TRIANGLE_STRIP, GL_UNSIGNED_BYTE, initObj.getIndexBuf(), setupObj.GOList.size());
+            glDrawElementsInstanced(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, 0, setupObj.GOList.size());
 
             glDisableVertexAttribArray(0);
             glDisableVertexAttribArray(1);

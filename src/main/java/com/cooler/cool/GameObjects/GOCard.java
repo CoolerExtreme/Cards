@@ -71,6 +71,8 @@ public class GOCard extends GameObject
         {
             this.setX((float) (cursorX + cOffX));
             this.setY((float) (cursorY + cOffY));
+            this.getTransform().setTranslation(new float[]{this.getX(), this.getY(), 0});
+            this.getTransform().setScale(new float[]{this.getW()*2, this.getH()*2, 1});
         }
         if(shouldOpenMenu && menuClosed)
         {
